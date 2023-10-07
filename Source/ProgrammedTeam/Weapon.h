@@ -6,7 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "Weapon.generated.h"
 
-UCLASS(abstract)
+UCLASS()
 class PROGRAMMEDTEAM_API AWeapon : public AActor
 {
 	GENERATED_BODY()
@@ -29,4 +29,7 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 	FString MeshRef;
+
+	UPROPERTY(VisibleAnywhere)
+		class UAnimMontageDataAsset* ActingAnimMontageDataAsset;
 };

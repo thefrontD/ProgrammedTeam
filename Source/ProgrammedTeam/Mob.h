@@ -8,18 +8,12 @@
 #include "Animation/AnimMontage.h"
 #include "Mob.generated.h"
 
+
 UENUM()
 enum class MobState : uint8 {
 	Idle,
 	Acting,
 	Dead,
-};
-
-struct PlayMontageParameters {
-public:
-	UAnimMontage* AnimToPlay;
-	float PlayRate;
-	FString Section;
 };
 
 UCLASS()
@@ -42,6 +36,10 @@ public:
 
 	//일반공격
 	void BeginActionA();
+	//스킬공격
+	void BeginActionB();
+	//장비 장착
+	void BeginActionC();
 
 protected:
 	UPROPERTY(VisibleAnywhere)

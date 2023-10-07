@@ -10,12 +10,13 @@
  * 
  */
 UCLASS()
-class PROGRAMMEDTEAM_API UMobAnimInstance : public UAnimInstance
+class PROGRAMMEDTEAM_API UMobAnimInstance : 
+	public UAnimInstance
 {
 	GENERATED_BODY()
 public:
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
-	void SetAiming(bool aiming);
+	void SetAiming(bool NewAiming);
 
 public:
 	UPROPERTY(BlueprintReadOnly)

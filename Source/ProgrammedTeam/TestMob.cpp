@@ -20,6 +20,10 @@ void ATestMob::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	PlayerInputComponent->BindAxis(TEXT("MoveFB"), this, &ATestMob::MoveFB);
 	PlayerInputComponent->BindAxis(TEXT("MoveLR"), this, &ATestMob::MoveLR);
+	PlayerInputComponent->BindAction(TEXT("ActionA"), EInputEvent::IE_Pressed, this, &ATestMob::BeginActionA);
+	PlayerInputComponent->BindAction(TEXT("ActionB"), EInputEvent::IE_Pressed, this, &ATestMob::BeginActionB);
+	PlayerInputComponent->BindAction(TEXT("ActionC"), EInputEvent::IE_Pressed, this, &ATestMob::BeginActionC);
+
 }
 
 void ATestMob::MoveFB(const float ForwardInput) {

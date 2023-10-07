@@ -10,7 +10,7 @@ AMob::AMob()
 	PrimaryActorTick.bCanEverTick = true;
 
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> SM_BODY(
-		TEXT("/Game/Skeletal_Meshes/Manequin/SK_Mannequin.SK_Mannequin")
+		TEXT("/Game/AnimStarterPack/UE4_Mannequin/Mesh/SK_Mannequin.SK_Mannequin")
 	);
 
 	auto CharacterMesh = GetMesh();
@@ -28,14 +28,12 @@ AMob::AMob()
 		TEXT("/Game/Animations/Firearms/Pistol/ABP_Pistol.ABP_Pistol_C")
 	);
 
-	Logger::Log("false");	
 	if (ABP_Mob.Succeeded()) {
-		Logger::Log("true");
 		CharacterMesh->SetAnimInstanceClass(ABP_Mob.Class);
 	}
 
+
 	//Cast<UMobAnimInstance>(CharacterMesh->GetAnimInstance())->SetAiming(false);
-	//SetAiming(false);
 }
 
 
@@ -43,7 +41,6 @@ AMob::AMob()
 void AMob::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 void AMob::Tick(float DeltaTime)
@@ -60,12 +57,23 @@ void AMob::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void AMob::SetAiming(bool NewAiming)
 {
-	UMobAnimInstance* AnimInstance = Cast<UMobAnimInstance>(GetMesh()->GetAnimInstance());
-	//AnimInstance->SetAiming(NewAiming);
+	auto AnimInstance = Cast<UMobAnimInstance>(GetMesh()->GetAnimInstance());
+	AnimInstance->SetAiming(NewAiming);
 }
 
 void AMob::BeginActionA()
 {
-	//
+	Logger::Log("BeginActionA");
+}
+void AMob::BeginActionB()
+{
+	Logger::Log("BeginActionB");
+}
+
+void AMob::BeginActionC()
+{
+	Logger::Log("BeginActionC");
+	bAiming = !bAiming;
+	SetAiming(bAiming);
 }
 
