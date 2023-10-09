@@ -6,11 +6,13 @@
 #include "Pistol.h"
 #include "StateAnimMontageData.h"
 #include "MobInitializerDataAsset.h"
+#include "ActableOneInterface.h"
 #include "MobAnimInstance.h"
 
 AMob::AMob()
 {
 	PrimaryActorTick.bCanEverTick = true;
+	auto CharacterMesh = GetMesh();
 
 
 	//initialize gun component
@@ -21,11 +23,11 @@ AMob::AMob()
 	static ConstructorHelpers::FObjectFinder<UMobInitializerDataAsset> FoundInitDataAsset(
 		TEXT("/Game/DataAssets/RifleMobInitDataAsset.RifleMobInitDataAsset")
 	);
-	MobInitDataAsset = FoundInitDataAsset.Object;
 
 
-	auto CharacterMesh = GetMesh();
 	if (FoundInitDataAsset.Succeeded()) {
+		MobInitDataAsset = FoundInitDataAsset.Object;
+
 		CharacterMesh->SetSkeletalMesh(MobInitDataAsset->MobMesh);
 		CharacterMesh->AddRelativeLocation(FVector(0, 0, -80));
 		CharacterMesh->SetRelativeRotation(FRotator(0, -90, 0));
@@ -90,6 +92,9 @@ void AMob::BeginActionA()
 				FStateAnimMontageData data = AMGettable->GetAnimMontage(0);
 				Logger::Log(data.Montage->GetFName().ToString()); //AM_Fire_Rifle 정상적으로 출력
 				GetMesh()->GetAnimInstance()->Montage_Play(data.Montage, data.PlayRate);
+
+				auto ActableOne = Cast<IActableOneInterface>(Gun->GetChildActor());
+				ActableOne->BeginActionA();
 			}
 		}
 	}

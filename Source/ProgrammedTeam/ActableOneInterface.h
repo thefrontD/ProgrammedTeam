@@ -23,4 +23,6 @@ class PROGRAMMEDTEAM_API IActableOneInterface
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
 	virtual void BeginActionA() PURE_VIRTUAL(IActableOneInterface::BeginActionA)
+	virtual void BeginActionB() PURE_VIRTUAL(IActableOneInterface::BeginActionB)
+	virtual void BeginActionC() PURE_VIRTUAL(IActableOneInterface::BeginActionC)
 };

@@ -31,5 +31,5 @@ public:
 		FName MuzzleSocket;
 
 	UPROPERTY(EditDefaultsOnly)
-		UParticleSystemComponent* MuzzleFlash;
+		class UParticleSystemComponent* MuzzleFlash;
 };

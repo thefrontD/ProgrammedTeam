@@ -12,8 +12,7 @@
  */
 UCLASS()
 class PROGRAMMEDTEAM_API APistol : 
-	public AWeapon,
-	public IActableOneInterface
+	public AWeapon
 {
 	GENERATED_BODY()
 
@@ -21,7 +20,7 @@ public:
 	APistol();
 
 private:
-	void BeginActionA() override;
+	//void BeginActionA() override;
 
 
 private:
@@ -32,17 +31,10 @@ private:
 	virtual void Reload();
 
 private:
-	UPROPERTY(VisibleAnywhere)
-		class UParticleSystemComponent* MuzzleFlash;
 
 	UPROPERTY(VisibleAnywhere)
 		class UParticleSystemComponent* AmmoEjection;
 
-	UPROPERTY(VisibleAnywhere)
-		class UAudioComponent* GunshotSound;
-
-	UPROPERTY(EditDefaultsOnly, Meta = (AllowPrivateAccess))
-		FName MuzzleSocket;
 
 	UPROPERTY(EditDefaultsOnly, Meta = (AllowPrivateAccess))
 		FName AmmoEjectionSocket;

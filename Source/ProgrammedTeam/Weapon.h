@@ -5,12 +5,14 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "AnimMontageGettableInterface.h"
+#include "ActableOneInterface.h"
 #include "Weapon.generated.h"
 
 UCLASS()
 class PROGRAMMEDTEAM_API AWeapon : 
 	public AActor,
-	public IAnimMontageGettableInterface
+	public IAnimMontageGettableInterface,
+	public IActableOneInterface
 {
 	GENERATED_BODY()
 	
@@ -26,6 +28,10 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	struct FStateAnimMontageData GetAnimMontage(int index) override;
+	void BeginActionA() override;
+	void BeginActionB() override;
+	void BeginActionC() override;
+	void OnConstruction(FTransform const& Transform) override;
 
 protected:
 	UPROPERTY(VisibleAnywhere)
@@ -35,5 +41,14 @@ protected:
 	FString MeshRef;
 
 	UPROPERTY(VisibleAnywhere)
+	class UParticleSystemComponent* MuzzleFlash;
+
+	UPROPERTY(VisibleAnywhere)
+	class UAudioComponent* GunshotSound;
+
+	UPROPERTY(VisibleAnywhere)
 	class UAnimMontageDataAsset* ActingAnimMontageDataAsset;
+
+	UPROPERTY(VisibleAnywhere)
+	class UWeaponInitializerDataAsset* WeaponInitDataAsset;
 };

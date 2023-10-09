@@ -54,7 +54,4 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 	class UMobInitializerDataAsset* MobInitDataAsset;
-
-	UPROPERTY(VisibleAnywhere)
-	class UParticleSystemComponent* MuzzleFlash;
 };

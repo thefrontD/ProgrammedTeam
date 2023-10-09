@@ -12,12 +12,6 @@ APistol::APistol() {
 	ActingAnimMontageDataAsset = ActingAnimMontageDataAssetHelper.Object;
 }
 
-void APistol::BeginActionA() {
-	Logger::Log("hello");
-	
-	return;
-}
-
 void APistol::BeginFire()
 {
 }
