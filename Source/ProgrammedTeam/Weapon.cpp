@@ -2,6 +2,8 @@
 
 
 #include "Weapon.h"
+#include "Particles/ParticleSystemComponent.h"
+#include "ProgrammedTeam.h"
 #include "AnimMontageDataAsset.h"
 
 AWeapon::AWeapon()
@@ -38,8 +40,13 @@ void AWeapon::Tick(float DeltaTime)
 
 }
 
-FStateAnimMontageData AWeapon::GetDataAssetMontage(int index)
+FStateAnimMontageData AWeapon::GetAnimMontage(int index)
 {
+	if (ActingAnimMontageDataAsset->List.Num() <= index) {
+		Logger::Log("IndexOutOfBound");
+		return FStateAnimMontageData();
+	}
+	Logger::Log(ActingAnimMontageDataAsset->List.Num());
 	return ActingAnimMontageDataAsset->List[index];
 }
 

@@ -1,9 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
+#include "Pistol.h"
 #include "ProgrammedTeam.h"
 #include "AnimMontageDataAsset.h"
-#include "Pistol.h"
 
 APistol::APistol() {
 	static ConstructorHelpers::FObjectFinder<UAnimMontageDataAsset> ActingAnimMontageDataAssetHelper(

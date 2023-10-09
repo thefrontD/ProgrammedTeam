@@ -16,4 +16,20 @@ class PROGRAMMEDTEAM_API UMobInitializerDataAsset : public UPrimaryDataAsset
 public:
 	UPROPERTY(EditDefaultsOnly)
 		TSubclassOf<class AWeapon> GunClass;
+
+	UPROPERTY(EditDefaultsOnly)
+		FName GunSocket;
+
+	UPROPERTY(EditDefaultsOnly)
+		USkeletalMesh* MobMesh;
+
+	UPROPERTY(EditDefaultsOnly)
+		TSubclassOf<class UAnimInstance> MobABP;
+
+
+	UPROPERTY(EditDefaultsOnly)
+		FName MuzzleSocket;
+
+	UPROPERTY(EditDefaultsOnly)
+		UParticleSystemComponent* MuzzleFlash;
 };

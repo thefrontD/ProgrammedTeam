@@ -4,45 +4,39 @@
 
 #include "Mob.h"
 #include "Pistol.h"
+#include "StateAnimMontageData.h"
+#include "MobInitializerDataAsset.h"
 #include "MobAnimInstance.h"
 
 AMob::AMob()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-	static ConstructorHelpers::FObjectFinder<USkeletalMesh> SM_BODY(
-		TEXT("/Game/AnimStarterPack/UE4_Mannequin/Mesh/SK_Mannequin.SK_Mannequin")
-	);
-
-	auto CharacterMesh = GetMesh();
-	if (SM_BODY.Succeeded()) {
-		CharacterMesh->SetSkeletalMesh(SM_BODY.Object);
-		CharacterMesh->AddRelativeLocation(FVector(0, 0, -80));
-		CharacterMesh->SetRelativeRotation(FRotator(0, -90, 0));
-		CharacterMesh->SetAnimationMode(EAnimationMode::AnimationBlueprint);
-	}
-
-	State = MobState::Idle;
-	bAiming = false;
-
-	static ConstructorHelpers::FClassFinder<UAnimInstance> ABP_Mob(
-		TEXT("/Game/Animations/Firearms/Pistol/ABP_Pistol.ABP_Pistol_C")
-	);
-
-	if (ABP_Mob.Succeeded()) {
-		CharacterMesh->SetAnimInstanceClass(ABP_Mob.Class);
-	}
-
-
 
 	//initialize gun component
 	Gun = CreateDefaultSubobject<UChildActorComponent>("Gun");
 	Gun->SetupAttachment(GetRootComponent());
 
-	static ConstructorHelpers::FClassFinder<APistol> WPClass(
-		TEXT("/Script/ProgrammedTeam.Pistol")
+
+	static ConstructorHelpers::FObjectFinder<UMobInitializerDataAsset> FoundInitDataAsset(
+		TEXT("/Game/DataAssets/RifleMobInitDataAsset.RifleMobInitDataAsset")
 	);
-	WeaponClass = WPClass.Class;
+	MobInitDataAsset = FoundInitDataAsset.Object;
+
+
+	auto CharacterMesh = GetMesh();
+	if (FoundInitDataAsset.Succeeded()) {
+		CharacterMesh->SetSkeletalMesh(MobInitDataAsset->MobMesh);
+		CharacterMesh->AddRelativeLocation(FVector(0, 0, -80));
+		CharacterMesh->SetRelativeRotation(FRotator(0, -90, 0));
+		CharacterMesh->SetAnimationMode(EAnimationMode::AnimationBlueprint);
+
+		CharacterMesh->SetAnimInstanceClass(MobInitDataAsset->MobABP);
+	}
+
+
+	State = MobState::Idle;
+	bAiming = false;
 
 
 	//Cast<UMobAnimInstance>(CharacterMesh->GetAnimInstance())->SetAiming(false);
@@ -53,8 +47,8 @@ void AMob::OnConstruction(FTransform const& Transform) {
 
 
 	FAttachmentTransformRules const Rules(EAttachmentRule::SnapToTarget, true);
-	Gun->AttachToComponent(GetMesh(), Rules, FName(TEXT("hand_rSocket")));
-	Gun->SetChildActorClass(WeaponClass);
+	Gun->AttachToComponent(GetMesh(), Rules, MobInitDataAsset->GunSocket);
+	Gun->SetChildActorClass(MobInitDataAsset->GunClass);
 	Gun->CreateChildActor();
 	Gun->GetChildActor()->SetOwner(this);
 	Gun->GetChildActor()->SetInstigator(this);
@@ -92,9 +86,10 @@ void AMob::BeginActionA()
 		Logger::Log("BeginActionA");
 
 		if (bAiming) {
-			if (auto ActableOne = Cast<IActableOneInterface>(Gun->GetChildActor())) {
-				//GetMesh()->GetAnimInstance()->Montage_Play()
-				ActableOne->BeginActionA();
+			if (auto AMGettable = Cast<IAnimMontageGettableInterface>(Gun->GetChildActor())) {
+				FStateAnimMontageData data = AMGettable->GetAnimMontage(0);
+				Logger::Log(data.Montage->GetFName().ToString()); //AM_Fire_Rifle 정상적으로 출력
+				GetMesh()->GetAnimInstance()->Montage_Play(data.Montage, data.PlayRate);
 			}
 		}
 	}

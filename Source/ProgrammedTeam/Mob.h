@@ -4,7 +4,6 @@
 
 #include "ProgrammedTeam.h"
 #include "GameFramework/Character.h"
-
 #include "Animation/AnimMontage.h"
 #include "Mob.generated.h"
 
@@ -54,8 +53,8 @@ protected:
 	UChildActorComponent* Gun;
 
 	UPROPERTY(VisibleAnywhere)
-	FName GunSocket;
+	class UMobInitializerDataAsset* MobInitDataAsset;
 
 	UPROPERTY(VisibleAnywhere)
-	TSubclassOf<class AWeapon> WeaponClass;
+	class UParticleSystemComponent* MuzzleFlash;
 };
