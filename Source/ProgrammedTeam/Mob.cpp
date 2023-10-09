@@ -3,6 +3,7 @@
 
 
 #include "Mob.h"
+#include "Pistol.h"
 #include "MobAnimInstance.h"
 
 AMob::AMob()
@@ -33,7 +34,31 @@ AMob::AMob()
 	}
 
 
+
+	//initialize gun component
+	Gun = CreateDefaultSubobject<UChildActorComponent>("Gun");
+	Gun->SetupAttachment(GetRootComponent());
+
+	static ConstructorHelpers::FClassFinder<APistol> WPClass(
+		TEXT("/Script/ProgrammedTeam.Pistol")
+	);
+	WeaponClass = WPClass.Class;
+
+
 	//Cast<UMobAnimInstance>(CharacterMesh->GetAnimInstance())->SetAiming(false);
+}
+
+void AMob::OnConstruction(FTransform const& Transform) {
+	Super::OnConstruction(Transform);
+
+
+	FAttachmentTransformRules const Rules(EAttachmentRule::SnapToTarget, true);
+	Gun->AttachToComponent(GetMesh(), Rules, FName(TEXT("hand_rSocket")));
+	Gun->SetChildActorClass(WeaponClass);
+	Gun->CreateChildActor();
+	Gun->GetChildActor()->SetOwner(this);
+	Gun->GetChildActor()->SetInstigator(this);
+
 }
 
 
@@ -63,7 +88,16 @@ void AMob::SetAiming(bool NewAiming)
 
 void AMob::BeginActionA()
 {
-	Logger::Log("BeginActionA");
+	if (Gun != nullptr) {
+		Logger::Log("BeginActionA");
+
+		if (bAiming) {
+			if (auto ActableOne = Cast<IActableOneInterface>(Gun->GetChildActor())) {
+				//GetMesh()->GetAnimInstance()->Montage_Play()
+				ActableOne->BeginActionA();
+			}
+		}
+	}
 }
 void AMob::BeginActionB()
 {

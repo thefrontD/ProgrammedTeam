@@ -24,6 +24,8 @@ class PROGRAMMEDTEAM_API AMob : public ACharacter
 public:
 	AMob();
 
+	void OnConstruction(FTransform const& Transform);
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -48,4 +50,12 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	bool bAiming;
 
+	UPROPERTY(VisibleAnywhere)
+	UChildActorComponent* Gun;
+
+	UPROPERTY(VisibleAnywhere)
+	FName GunSocket;
+
+	UPROPERTY(VisibleAnywhere)
+	TSubclassOf<class AWeapon> WeaponClass;
 };

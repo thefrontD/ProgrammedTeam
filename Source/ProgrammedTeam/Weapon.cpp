@@ -38,3 +38,8 @@ void AWeapon::Tick(float DeltaTime)
 
 }
 
+FStateAnimMontageData AWeapon::GetDataAssetMontage(int index)
+{
+	return ActingAnimMontageDataAsset->List[index];
+}
+

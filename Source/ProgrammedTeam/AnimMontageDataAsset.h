@@ -17,6 +17,6 @@ class PROGRAMMEDTEAM_API UAnimMontageDataAsset : public UPrimaryDataAsset
 	GENERATED_BODY()
 public:
 	UPROPERTY(EditAnywhere)
-	TArray<FStateAnimMontageData> AnimMontageDataArray;
+	TArray<FStateAnimMontageData> List;
 
 };

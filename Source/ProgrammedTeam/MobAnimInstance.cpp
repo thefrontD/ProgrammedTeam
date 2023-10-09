@@ -16,5 +16,4 @@ void UMobAnimInstance::NativeUpdateAnimation(float DeltaSeconds) {
 void UMobAnimInstance::SetAiming(bool aiming)
 {
 	this->bAiming = aiming;
-
 }
