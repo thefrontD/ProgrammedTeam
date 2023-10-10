@@ -7,7 +7,6 @@
 #include "Animation/AnimMontage.h"
 #include "Mob.generated.h"
 
-
 UENUM()
 enum class MobState : uint8 {
 	Idle,

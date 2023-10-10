@@ -1,7 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
-
 #include "Mob.h"
 #include "Pistol.h"
 #include "StateAnimMontageData.h"
@@ -91,6 +89,7 @@ void AMob::BeginActionA()
 			if (auto AMGettable = Cast<IAnimMontageGettableInterface>(Gun->GetChildActor())) {
 				FStateAnimMontageData data = AMGettable->GetAnimMontage(0);
 				Logger::Log(data.Montage->GetFName().ToString()); //AM_Fire_Rifle 정상적으로 출력
+				//PlayAnimMontage(data.Montage);
 				GetMesh()->GetAnimInstance()->Montage_Play(data.Montage, data.PlayRate);
 
 				auto ActableOne = Cast<IActableOneInterface>(Gun->GetChildActor());
