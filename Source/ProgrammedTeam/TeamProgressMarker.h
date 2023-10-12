@@ -32,5 +32,4 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 	class UPatrolComponent* PatrolComponent;
-
 };

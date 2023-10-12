@@ -15,6 +15,12 @@ ATeamProgressMarker::ATeamProgressMarker()
 	DSRoot = CreateDefaultSubobject<USceneComponent>("DefaultSceneRoot");
 	PatrolComponent = CreateDefaultSubobject<UPatrolComponent>("PatrolComponent");
 	//BTAsset = CreateDefaultSubobject<UBehaviorTreeComponent>("UBehaviorTreeComponent");
+
+	AIControllerClass = AMarkerController::StaticClass();
+	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
+
+
+
 }
 
 // Called when the game starts or when spawned

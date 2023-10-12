@@ -15,12 +15,17 @@ class PROGRAMMEDTEAM_API AMarkerController : public AAIController
 	GENERATED_BODY()
 public:
 	AMarkerController();
-	virtual void Possess(APawn* InPawn) override;
-	virtual void UnPossess() override;
+	virtual void OnPossess(APawn* InPawn) override;
+	virtual void OnUnPossess() override;
 private:
 	void OnRepeatTimer();
 	FTimerHandle RepeatTimerHandle;
 	float RepeatInterval;
 protected:
+	/*UPROPERTY(VisibleAnywhere)
+		class UBehaviorTree* BTAsset;
+
+	UPROPERTY(VisibleAnywhere)
+		class UBlackboardData* BBAsset;*/
 
 };
