@@ -3,20 +3,20 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/DragDropOperation.h"
+#include "GameFramework/SaveGame.h"
 #include "MobTypeEnum.h"
-#include "CharacterDragDropOperation.generated.h"
-
+#include "PTSaveGame.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class PROGRAMMEDTEAM_API UCharacterDragDropOperation : public UDragDropOperation
+class PROGRAMMEDTEAM_API UPTSaveGame : public USaveGame
 {
 	GENERATED_BODY()
-	
 public:
+	UPTSaveGame();
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-		MobType MobTypeValue;
+	TArray<MobType> SavedMobTypes;
 };
