@@ -24,5 +24,16 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-		
+	void SetIndexToNext();
+
+	bool GetDestination(FVector& out);
+
+public:
+	UPROPERTY(EditInstanceOnly)
+		class APatrolRoute* PatrolRoute;
+
+private:
+	UPROPERTY(VisibleAnywhere)
+		int Index;
+
 };

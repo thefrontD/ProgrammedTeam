@@ -3,16 +3,16 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Pawn.h"
+#include "GameFramework/Character.h"
 #include "TeamProgressMarker.generated.h"
 
 UCLASS()
-class PROGRAMMEDTEAM_API ATeamProgressMarker : public APawn
+class PROGRAMMEDTEAM_API ATeamProgressMarker : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this pawn's properties
+	// Sets default values for this character's properties
 	ATeamProgressMarker();
 
 protected:
@@ -26,10 +26,11 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-protected:
-	UPROPERTY(VisibleAnywhere)
-	class USceneComponent* DSRoot;
+private:
 
 	UPROPERTY(VisibleAnywhere)
-	class UPatrolComponent* PatrolComponent;
+		class USceneComponent* DSRoot;
+
+	UPROPERTY(VisibleAnywhere)
+		class UPatrolComponent* PatrolComponent;
 };

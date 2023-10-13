@@ -2,6 +2,8 @@
 
 
 #include "PatrolComponent.h"
+#include "PatrolRoute.h"
+#include "Components/SplineComponent.h"
 
 // Sets default values for this component's properties
 UPatrolComponent::UPatrolComponent()
@@ -10,7 +12,8 @@ UPatrolComponent::UPatrolComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
-	// ...
+	Index = 0;
+
 }
 
 
@@ -30,5 +33,28 @@ void UPatrolComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// ...
+}
+
+void UPatrolComponent::SetIndexToNext()
+{
+	//USplineComponent* Spline;
+
+	if (PatrolRoute == nullptr) {
+		return;
+	}
+
+
+}
+
+bool UPatrolComponent::GetDestination(FVector& out)
+{
+	if (PatrolRoute == nullptr) {
+		out = FVector::ZeroVector;
+		return false;
+	}
+
+	out = PatrolRoute->Spline->GetLocationAtSplinePoint(Index, ESplineCoordinateSpace::World);
+
+	return true;
 }
 

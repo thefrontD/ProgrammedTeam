@@ -4,11 +4,28 @@
 #include "MarkerController.h"
 #include "NavigationSystem.h"
 #include "ProgrammedTeam.h"
+#include "BehaviorTree/BehaviorTree.h"
+#include "BehaviorTree/BlackboardData.h"
 #include "Blueprint/AIBlueprintHelperLibrary.h"
 
 AMarkerController::AMarkerController() 
 {
 	RepeatInterval = 3.0f;
+
+	static ConstructorHelpers::FObjectFinder<UBehaviorTree> FoundBehaviorTree(
+		TEXT("/Game/AIAsset/BT_ProgressMarker.BT_ProgressMarker")
+		);
+	if (FoundBehaviorTree.Succeeded()) {
+		BTAsset = FoundBehaviorTree.Object;
+	}
+
+	static ConstructorHelpers::FObjectFinder<UBlackboardData> FoundBlackboardData(
+		TEXT("/Game/AIAsset/BB_ProgressMarker.BB_ProgressMarker")
+	);
+	if (FoundBlackboardData.Succeeded()) {
+		BBAsset = FoundBlackboardData.Object;
+	}
+
 
 
 }
@@ -16,16 +33,19 @@ AMarkerController::AMarkerController()
 void AMarkerController::OnPossess(APawn* InPawn)
 {
 	Super::OnPossess(InPawn);
-	if (GetWorld() == NULL)
-		Logger::Print("Possess Error");
-	else
-		GetWorld()->GetTimerManager().SetTimer(
-			RepeatTimerHandle, 
-			this, 
-			&AMarkerController::OnRepeatTimer, 
-			RepeatInterval, 
-			true
-		);
+	/*GetWorld()->GetTimerManager().SetTimer(
+		RepeatTimerHandle,
+		this,
+		&AMarkerController::OnRepeatTimer,
+		RepeatInterval,
+		true
+	);*/
+	
+	if (UseBlackboard(BBAsset, Blackboard)) {
+		if (!RunBehaviorTree(BTAsset)) {
+			Logger::Log("Error on running BehaviorTree");
+		}
+	}
 }
 
 void AMarkerController::OnUnPossess()

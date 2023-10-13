@@ -22,10 +22,10 @@ private:
 	FTimerHandle RepeatTimerHandle;
 	float RepeatInterval;
 protected:
-	/*UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere)
 		class UBehaviorTree* BTAsset;
 
 	UPROPERTY(VisibleAnywhere)
-		class UBlackboardData* BBAsset;*/
+		class UBlackboardData* BBAsset;
 
 };
