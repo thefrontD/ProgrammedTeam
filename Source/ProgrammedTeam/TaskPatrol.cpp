@@ -29,6 +29,7 @@ EBTNodeResult::Type UTaskPatrol::ExecuteTask(UBehaviorTreeComponent& OwnerComp, 
 		if (NavSystem == nullptr)
 			return EBTNodeResult::Failed;
 
+		//Logger::Print(Location);
 		UAIBlueprintHelperLibrary::SimpleMoveToLocation(ControllingPawn->Controller, Location);
 
 		return EBTNodeResult::Succeeded;

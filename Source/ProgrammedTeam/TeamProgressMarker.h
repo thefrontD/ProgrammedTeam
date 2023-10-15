@@ -27,10 +27,18 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 private:
+	UPROPERTY(VisibleAnywhere)
+		class UTPMarkerInitDataAsset* InitDataAsset;
 
 	UPROPERTY(VisibleAnywhere)
 		class USceneComponent* DSRoot;
 
 	UPROPERTY(VisibleAnywhere)
 		class UPatrolComponent* PatrolComponent;
+
+	UPROPERTY(VisibleAnywhere)
+		TArray<FVector> Offsets;
+
+	UPROPERTY(VisibleAnywhere)
+		TSubclassOf<class AMob> SpawnClass;
 };
