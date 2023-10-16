@@ -29,7 +29,6 @@ EBTNodeResult::Type UTaskPatrol::ExecuteTask(UBehaviorTreeComponent& OwnerComp, 
 		bool bNearBy = FVector::DistXY(FVector::ZeroVector, ControllingPawn->GetActorLocation() - Location) < MarginDistance;
 		bool bInBattle = OwnerComp.GetBlackboardComponent()->GetValueAsBool(TEXT("bInBattle"));
 		if (bNearBy && !bInBattle) {
-			Logger::Print("SetNextIndex");
 			PatrolComponent->SetIndexToNext();
 		}
 

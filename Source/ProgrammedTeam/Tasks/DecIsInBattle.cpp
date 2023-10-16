@@ -14,7 +14,5 @@ bool UDecIsInBattle::CalculateRawConditionValue(UBehaviorTreeComponent& OwnerCom
 
     bResult = OwnerComp.GetBlackboardComponent()->GetValueAsBool(TEXT("bInBattle"));
 
-    //Logger::Print(bResult);
-
     return bResult;
 }

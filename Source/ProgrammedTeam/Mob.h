@@ -52,6 +52,10 @@ public:
 
 	class UBlackboardData* GetBBAsset();
 
+	void SetDestination(FVector NewDestination);
+
+	FVector GetDestination();
+
 	//일반공격
 	void BeginActionA();
 	//스킬공격
@@ -77,5 +81,8 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 		float CurrentHP;
+
+	UPROPERTY(VisibleAnywhere)
+		FVector Destination;
 
 };

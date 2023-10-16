@@ -142,6 +142,16 @@ UBlackboardData* AMob::GetBBAsset()
 	return MobInitDataAsset->BBAsset;
 }
 
+void AMob::SetDestination(FVector NewDestination)
+{
+	Destination = NewDestination;
+}
+
+FVector AMob::GetDestination()
+{
+	return Destination;
+}
+
 void AMob::BeginActionA()
 {
 	if (Gun != nullptr) {
