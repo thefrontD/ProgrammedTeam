@@ -100,3 +100,11 @@ bool ATeamProgressMarker::CheckTeamInBattle()
 	return bResult;
 }
 
+void ATeamProgressMarker::SetMobDestination()
+{
+	FVector ActorLocation = GetActorLocation();
+	for (int i = 0; i < SpawnedMob.Num(); i++) {
+		SpawnedMob[i]->SetDestination(ActorLocation + Offsets[i]);
+	}
+}
+

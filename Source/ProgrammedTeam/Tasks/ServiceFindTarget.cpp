@@ -47,6 +47,7 @@ void UServiceFindTarget::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* Node
 	);
 
 	if (bResult) {
+		OwnerComp.GetBlackboardComponent()->SetValueAsObject(TEXT("Target"), nullptr);
 		for (auto const& OverlapResult : OverlapResults)
 		{
 			AMob* Mob = Cast<AMob>(OverlapResult.GetActor());

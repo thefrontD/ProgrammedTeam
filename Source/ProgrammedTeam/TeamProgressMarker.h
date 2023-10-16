@@ -28,6 +28,8 @@ public:
 
 	bool CheckTeamInBattle();
 
+	void SetMobDestination();
+
 private:
 	UPROPERTY(VisibleAnywhere)
 		class UTPMarkerInitDataAsset* InitDataAsset;

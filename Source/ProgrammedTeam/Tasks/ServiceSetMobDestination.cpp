@@ -5,6 +5,7 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "AIController.h"
 #include "../Mob.h"
+#include "../TeamProgressMarker.h"
 
 
 UServiceSetMobDestination::UServiceSetMobDestination() {
@@ -19,9 +20,8 @@ void UServiceSetMobDestination::TickNode(UBehaviorTreeComponent& OwnerComp, uint
 	if (ControllingPawn == nullptr) {
 		return;
 	}
-	AMob* Mob = Cast<AMob>(ControllingPawn);
+	ATeamProgressMarker* Marker = Cast<ATeamProgressMarker>(ControllingPawn);
 
-
-	OwnerComp.GetBlackboardComponent()->SetValueAsObject(TEXT("Destination"), Mob);
-
+	Marker->SetMobDestination();
+	
 }
