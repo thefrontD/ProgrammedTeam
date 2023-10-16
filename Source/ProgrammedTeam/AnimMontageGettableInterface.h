@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
-#include "StateAnimMontageData.h"
+#include "DataAssets/Structs/StateAnimMontageData.h"
 #include "AnimMontageGettableInterface.generated.h"
 
 UINTERFACE(MinimalAPI)

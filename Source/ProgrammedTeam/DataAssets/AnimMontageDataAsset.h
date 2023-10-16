@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Engine/DataAsset.h"
-#include "StateAnimMontageData.h"
+#include "Structs/StateAnimMontageData.h"
 #include "AnimMontageDataAsset.generated.h"
 
 

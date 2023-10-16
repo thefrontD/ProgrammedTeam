@@ -4,28 +4,26 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
-#include "MarkerController.generated.h"
+#include "MobController.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class PROGRAMMEDTEAM_API AMarkerController : public AAIController
+class PROGRAMMEDTEAM_API AMobController : public AAIController
 {
 	GENERATED_BODY()
 public:
-	AMarkerController();
+	AMobController();
 	virtual void OnPossess(APawn* InPawn) override;
 	virtual void OnUnPossess() override;
+	void InitController(class UBehaviorTree* BTAsset, class UBlackboardData* BBAsset);
 private:
 	void OnRepeatTimer();
-	//FTimerHandle RepeatTimerHandle;
-	float RepeatInterval;
 protected:
 	UPROPERTY(VisibleAnywhere)
 		class UBehaviorTree* BTAsset;
 
 	UPROPERTY(VisibleAnywhere)
 		class UBlackboardData* BBAsset;
-
 };

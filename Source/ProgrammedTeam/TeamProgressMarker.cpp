@@ -10,7 +10,7 @@
 #include "Mob.h"
 #include "Kismet/GameplayStatics.h"
 #include "ProgrammedTeam.h"
-#include "TPMarkerInitDataAsset.h"
+#include "DataAssets/TPMarkerInitDataAsset.h"
 
 ATeamProgressMarker::ATeamProgressMarker()
 {
@@ -69,9 +69,12 @@ void ATeamProgressMarker::BeginPlay()
 		if (Offsets.Num() > i) {
 			FTransform transform;
 			transform.SetLocation(GetActorLocation() + Offsets[i]);
-			GetWorld()->SpawnActor<AMob>(SpawnClass, transform);
+			auto Mob = GetWorld()->SpawnActor<AMob>(SpawnClass, transform);
+			Mob->Tags.Add("Player");
+			SpawnedMob.Add(Mob);
 		}
 	}
+
 }
 
 void ATeamProgressMarker::Tick(float DeltaTime)
@@ -84,5 +87,16 @@ void ATeamProgressMarker::SetupPlayerInputComponent(UInputComponent* PlayerInput
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+bool ATeamProgressMarker::CheckTeamInBattle()
+{
+	bool bResult = false;
+
+	for (AMob* Mob : SpawnedMob) {
+		bResult = bResult || !(Mob->IsTargetNull());
+	}
+
+	return bResult;
 }
 

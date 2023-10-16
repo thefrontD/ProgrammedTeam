@@ -34,6 +34,24 @@ public:
 	
 	void SetAiming(bool NewAiming);
 
+	bool GetAiming() const;
+
+	bool IsTargetNull() const;
+
+	void SetTarget(AMob* NewTarget);
+
+	void ApplyDamageTarget();
+
+	virtual float TakeDamage(
+		float DamageAmount, 
+		struct FDamageEvent const& DamageEvent,
+		class AController* EventInstigator,
+		AActor* DamageCauser) override;
+
+	class UBehaviorTree* GetBTAsset();
+
+	class UBlackboardData* GetBBAsset();
+
 	//일반공격
 	void BeginActionA();
 	//스킬공격
@@ -53,4 +71,11 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 	class UMobInitializerDataAsset* MobInitDataAsset;
+
+	UPROPERTY(VisibleAnywhere)
+	AMob* AttackTarget;
+
+	UPROPERTY(VisibleAnywhere)
+		float CurrentHP;
+
 };

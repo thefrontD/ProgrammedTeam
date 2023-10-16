@@ -4,6 +4,7 @@
 #include "PatrolComponent.h"
 #include "PatrolRoute.h"
 #include "Components/SplineComponent.h"
+#include "ProgrammedTeam.h"
 
 // Sets default values for this component's properties
 UPatrolComponent::UPatrolComponent()
@@ -43,7 +44,10 @@ void UPatrolComponent::SetIndexToNext()
 		return;
 	}
 
+	if(PatrolRoute->Spline->GetNumberOfSplinePoints() > Index)
+		Index++;
 
+	return;
 }
 
 bool UPatrolComponent::GetDestination(FVector& out)

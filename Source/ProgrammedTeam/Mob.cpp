@@ -2,10 +2,11 @@
 
 #include "Mob.h"
 #include "Pistol.h"
-#include "StateAnimMontageData.h"
-#include "MobInitializerDataAsset.h"
+#include "DataAssets/Structs/StateAnimMontageData.h"
+#include "DataAssets/MobInitializerDataAsset.h"
 #include "ActableOneInterface.h"
 #include "MobAnimInstance.h"
+#include "MobController.h"
 
 AMob::AMob()
 {
@@ -19,7 +20,7 @@ AMob::AMob()
 
 
 	static ConstructorHelpers::FObjectFinder<UMobInitializerDataAsset> FoundInitDataAsset(
-		TEXT("/Game/DataAssets/RifleMobInitDataAsset.RifleMobInitDataAsset")
+		TEXT("/Game/DataAssets/InitData/RifleMobInitDataAsset.RifleMobInitDataAsset")
 	);
 
 
@@ -32,12 +33,17 @@ AMob::AMob()
 		CharacterMesh->SetAnimationMode(EAnimationMode::AnimationBlueprint);
 
 		CharacterMesh->SetAnimInstanceClass(MobInitDataAsset->MobABP);
+
+		CurrentHP = MobInitDataAsset->MaxHP;
 	}
 
 
 	State = MobState::Idle;
 	bAiming = false;
 
+
+	AIControllerClass = AMobController::StaticClass();
+	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 
 	//Cast<UMobAnimInstance>(CharacterMesh->GetAnimInstance())->SetAiming(false);
 }
@@ -60,6 +66,11 @@ void AMob::OnConstruction(FTransform const& Transform) {
 void AMob::BeginPlay()
 {
 	Super::BeginPlay();
+
+
+
+	//GetController
+	//MobInitDataAsset->BTAsset
 }
 
 void AMob::Tick(float DeltaTime)
@@ -80,6 +91,57 @@ void AMob::SetAiming(bool NewAiming)
 	AnimInstance->SetAiming(NewAiming);
 }
 
+bool AMob::GetAiming() const
+{
+	return bAiming;
+}
+
+bool AMob::IsTargetNull() const
+{
+	return AttackTarget == nullptr;
+}
+
+void AMob::SetTarget(AMob* NewTarget)
+{
+	AttackTarget = NewTarget;
+}
+
+void AMob::ApplyDamageTarget()
+{
+	FDamageEvent DamageEvent;
+	AttackTarget->TakeDamage(
+		MobInitDataAsset->Damage, 
+		DamageEvent, 
+		GetController(), 
+		this);
+}
+
+float AMob::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	float FinalDamage = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+
+	CurrentHP -= FinalDamage;
+
+	Logger::Print(CurrentHP);
+
+	if (CurrentHP < 0) {
+		State = MobState::Dead;
+		Destroy();
+	}
+
+	return 0.0f;
+}
+
+UBehaviorTree* AMob::GetBTAsset()
+{
+	return MobInitDataAsset->BTAsset;
+}
+
+UBlackboardData* AMob::GetBBAsset()
+{
+	return MobInitDataAsset->BBAsset;
+}
+
 void AMob::BeginActionA()
 {
 	if (Gun != nullptr) {
@@ -94,6 +156,8 @@ void AMob::BeginActionA()
 
 				auto ActableOne = Cast<IActableOneInterface>(Gun->GetChildActor());
 				ActableOne->BeginActionA();
+
+				ApplyDamageTarget();
 			}
 		}
 	}

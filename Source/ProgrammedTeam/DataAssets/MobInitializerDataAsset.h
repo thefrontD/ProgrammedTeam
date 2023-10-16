@@ -15,6 +15,12 @@ class PROGRAMMEDTEAM_API UMobInitializerDataAsset : public UPrimaryDataAsset
 	GENERATED_BODY()
 public:
 	UPROPERTY(EditDefaultsOnly)
+		float MaxHP;
+
+	UPROPERTY(EditDefaultsOnly)
+		float Damage;
+
+	UPROPERTY(EditDefaultsOnly)
 		TSubclassOf<class AWeapon> GunClass;
 
 	UPROPERTY(EditDefaultsOnly)
@@ -32,4 +38,10 @@ public:
 
 	UPROPERTY(EditDefaultsOnly)
 		class UParticleSystemComponent* MuzzleFlash;
+
+	UPROPERTY(EditDefaultsOnly)
+		class UBehaviorTree* BTAsset;
+
+	UPROPERTY(EditDefaultsOnly)
+		class UBlackboardData* BBAsset;
 };

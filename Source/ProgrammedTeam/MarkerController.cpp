@@ -14,7 +14,7 @@ AMarkerController::AMarkerController()
 
 	static ConstructorHelpers::FObjectFinder<UBehaviorTree> FoundBehaviorTree(
 		TEXT("/Game/AIAsset/BT_ProgressMarker.BT_ProgressMarker")
-		);
+	);
 	if (FoundBehaviorTree.Succeeded()) {
 		BTAsset = FoundBehaviorTree.Object;
 	}
@@ -25,9 +25,6 @@ AMarkerController::AMarkerController()
 	if (FoundBlackboardData.Succeeded()) {
 		BBAsset = FoundBlackboardData.Object;
 	}
-
-
-
 }
 
 void AMarkerController::OnPossess(APawn* InPawn)
@@ -51,12 +48,12 @@ void AMarkerController::OnPossess(APawn* InPawn)
 void AMarkerController::OnUnPossess()
 {
 	Super::OnUnPossess();
-	GetWorld()->GetTimerManager().ClearTimer(RepeatTimerHandle);
+	//GetWorld()->GetTimerManager().ClearTimer(RepeatTimerHandle);
 }
 
 void AMarkerController::OnRepeatTimer()
 {
-	Logger::Print("OnRepeatTimer Called");
+	//Logger::Print("OnRepeatTimer Called");
 
 	auto CurrentPawn = GetPawn();
 	if (CurrentPawn == nullptr)

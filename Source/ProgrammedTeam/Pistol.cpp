@@ -3,7 +3,7 @@
 
 #include "Pistol.h"
 #include "ProgrammedTeam.h"
-#include "AnimMontageDataAsset.h"
+#include "DataAssets/AnimMontageDataAsset.h"
 
 APistol::APistol() {
 	static ConstructorHelpers::FObjectFinder<UAnimMontageDataAsset> ActingAnimMontageDataAssetHelper(

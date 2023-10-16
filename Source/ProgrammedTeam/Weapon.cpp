@@ -5,9 +5,9 @@
 #include "Particles/ParticleSystemComponent.h"
 #include "Components/AudioComponent.h"
 #include "ProgrammedTeam.h"
-#include "AnimMontageDataAsset.h"
+#include "DataAssets/AnimMontageDataAsset.h"
 #include "Bullet.h"
-#include "WeaponInitializerDataAsset.h"
+#include "DataAssets/WeaponInitializerDataAsset.h"
 
 AWeapon::AWeapon()
 {
@@ -20,7 +20,7 @@ AWeapon::AWeapon()
 	GunshotSound = CreateDefaultSubobject<UAudioComponent>("GunshotSound");
 
 	static ConstructorHelpers::FObjectFinder<UWeaponInitializerDataAsset> FoundInitDataAsset(
-		TEXT("/Game/DataAssets/RifleWeaponInitDataAsset.RifleWeaponInitDataAsset")
+		TEXT("/Game/DataAssets/InitData/RifleWeaponInitDataAsset.RifleWeaponInitDataAsset")
 	);
 
 	if (FoundInitDataAsset.Succeeded()) {
