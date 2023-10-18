@@ -6,6 +6,7 @@
 #include "DataAssets/MobInitializerDataAsset.h"
 #include "ActableOneInterface.h"
 #include "MobAnimInstance.h"
+//#include "GameFramework/CharacterMovementComponent.h"
 #include "MobController.h"
 
 AMob::AMob()
@@ -36,7 +37,7 @@ AMob::AMob()
 
 		CurrentHP = MobInitDataAsset->MaxHP;
 	}
-
+	//CharacterMovement->Set
 
 	State = MobState::Idle;
 	bAiming = false;

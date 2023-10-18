@@ -108,3 +108,23 @@ void ATeamProgressMarker::SetMobDestination()
 	}
 }
 
+void ATeamProgressMarker::GetCenterAndRange(FVector& CenterLocation, float& Range)
+{
+	FVector SumVector = FVector::ZeroVector;
+
+	for (AMob* Mob : SpawnedMob) {
+		SumVector += Mob->GetActorLocation();
+	}
+	CenterLocation = SumVector / SpawnedMob.Num();
+
+	float newRange = 0.0f;
+	for (AMob* Mob : SpawnedMob) {
+		float calc = FVector::DistXY(FVector::ZeroVector, CenterLocation - Mob->GetActorLocation());
+		if (newRange < calc)
+			newRange = calc;
+	}
+	Range = newRange + 50.0f;
+
+	return;
+}
+

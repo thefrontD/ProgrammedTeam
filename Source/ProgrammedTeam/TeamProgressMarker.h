@@ -30,6 +30,8 @@ public:
 
 	void SetMobDestination();
 
+	void GetCenterAndRange(FVector& CenterLocation, float& Range);
+
 private:
 	UPROPERTY(VisibleAnywhere)
 		class UTPMarkerInitDataAsset* InitDataAsset;
