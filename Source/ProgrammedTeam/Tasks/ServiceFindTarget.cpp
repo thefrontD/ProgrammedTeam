@@ -23,6 +23,7 @@ void UServiceFindTarget::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* Node
 	if (ControllingPawn == nullptr) {
 		return;
 	}
+	auto ControllingMob = Cast<AMob>(ControllingPawn);
 
 
 	auto World = ControllingPawn->GetWorld();
@@ -52,7 +53,7 @@ void UServiceFindTarget::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* Node
 		{
 			AMob* Mob = Cast<AMob>(OverlapResult.GetActor());
 
-			if (Mob && !(Mob->ActorHasTag(TEXT("Player")))) {
+			if (Mob && !(Mob->GetTeamNum() == ControllingMob->GetTeamNum())) {
 				OwnerComp.GetBlackboardComponent()->SetValueAsObject(TEXT("Target"), Mob);
 			}
 		}

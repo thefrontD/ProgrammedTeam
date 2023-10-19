@@ -54,6 +54,10 @@ public:
 
 	void SetDestination(FVector NewDestination);
 
+	void SetTeamNum(const int NewTeamNum) { TeamNum = NewTeamNum; }
+
+	int GetTeamNum() { return TeamNum; }
+
 	FVector GetDestination();
 
 	//일반공격
@@ -80,9 +84,11 @@ protected:
 	AMob* AttackTarget;
 
 	UPROPERTY(VisibleAnywhere)
-		float CurrentHP;
+	float CurrentHP;
 
 	UPROPERTY(VisibleAnywhere)
-		FVector Destination;
+	FVector Destination;
 
+	UPROPERTY(VisibleAnywhere)
+	int TeamNum = 1; /* 0: player, 1: enemy */
 };

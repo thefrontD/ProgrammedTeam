@@ -110,11 +110,13 @@ void AMob::SetTarget(AMob* NewTarget)
 void AMob::ApplyDamageTarget()
 {
 	FDamageEvent DamageEvent;
-	AttackTarget->TakeDamage(
-		MobInitDataAsset->Damage, 
-		DamageEvent, 
-		GetController(), 
-		this);
+	if (AttackTarget != nullptr) {
+		AttackTarget->TakeDamage(
+			MobInitDataAsset->Damage,
+			DamageEvent,
+			GetController(),
+			this);
+	}
 }
 
 float AMob::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)

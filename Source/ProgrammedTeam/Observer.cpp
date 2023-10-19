@@ -41,11 +41,12 @@ void AObserver::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	FVector CenterLocation;
-	float Range;
-	Marker->GetCenterAndRange(CenterLocation, Range);
+	float NewAddRange;
+	Marker->GetCenterAndRange(CenterLocation, NewAddRange);
+	SpringArmLength = SpringArmLength * (1 - DeltaTime) + (1000 + NewAddRange) * (DeltaTime);
 	SetActorLocation(CenterLocation);
-	SpringArm->TargetArmLength = 1000;//Range * 5;
-
+	SpringArm->TargetArmLength = SpringArmLength;
+	
 }
 
 void AObserver::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)

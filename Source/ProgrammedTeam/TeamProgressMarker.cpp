@@ -11,6 +11,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "ProgrammedTeam.h"
 #include "DataAssets/TPMarkerInitDataAsset.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 ATeamProgressMarker::ATeamProgressMarker()
 {
@@ -33,6 +34,8 @@ ATeamProgressMarker::ATeamProgressMarker()
 
 	AIControllerClass = AMarkerController::StaticClass();
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
+
+	GetCharacterMovement()->MaxWalkSpeed = 2000;
 		
 
 	//Class'/Script/ProgrammedTeam.Mob'
@@ -70,7 +73,7 @@ void ATeamProgressMarker::BeginPlay()
 			FTransform transform;
 			transform.SetLocation(GetActorLocation() + Offsets[i]);
 			auto Mob = GetWorld()->SpawnActor<AMob>(SpawnClass, transform);
-			Mob->Tags.Add("Player");
+			Mob->SetTeamNum(0);
 			SpawnedMob.Add(Mob);
 		}
 	}

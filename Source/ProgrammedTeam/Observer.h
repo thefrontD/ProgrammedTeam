@@ -26,10 +26,14 @@ public:
 protected:
 	UPROPERTY(VisibleAnywhere)
 	class UCameraComponent* Camera;
+
 	UPROPERTY(VisibleAnywhere)
 	class USpringArmComponent* SpringArm;
 
 	UPROPERTY(VisibleAnywhere)
-		class ATeamProgressMarker* Marker;
+	class ATeamProgressMarker* Marker;
+
+	UPROPERTY(VisibleAnywhere)
+	float SpringArmLength = 1000;
 
 };

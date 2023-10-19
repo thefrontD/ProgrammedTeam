@@ -12,7 +12,9 @@ bool UDecIsInBattle::CalculateRawConditionValue(UBehaviorTreeComponent& OwnerCom
 {
     bool bResult = Super::CalculateRawConditionValue(OwnerComp, NodeMemory);
 
-    bResult = OwnerComp.GetBlackboardComponent()->GetValueAsBool(TEXT("bInBattle"));
+    bool InBattle = OwnerComp.GetBlackboardComponent()->GetValueAsBool(TEXT("bInBattle"));
 
-    return bResult;
+    bool InPosition = OwnerComp.GetBlackboardComponent()->GetValueAsBool(TEXT("bInPosition"));
+
+    return InBattle || (!InPosition);
 }
