@@ -74,16 +74,16 @@ void AWeapon::BeginActionA()
 	MuzzleFlash->Activate(true);
 	GunshotSound->Activate(true);
 
-	FTransform Muzzle = Mesh->GetSocketTransform(WeaponInitDataAsset->MuzzleSocket);
+	//FTransform Muzzle = Mesh->GetSocketTransform(WeaponInitDataAsset->MuzzleSocket);
 
-	Muzzle.SetLocation(Muzzle.GetLocation() + Muzzle.GetRotation().GetForwardVector() * 25);
+	//Muzzle.SetLocation(Muzzle.GetLocation() + Muzzle.GetRotation().GetForwardVector() * 25);
 
-	FActorSpawnParameters SpawnParameters;
+	//FActorSpawnParameters SpawnParameters;
 
-	SpawnParameters.Owner = this;
-	SpawnParameters.Instigator = GetInstigator();
+	//SpawnParameters.Owner = this;
+	//SpawnParameters.Instigator = GetInstigator();
 
-	GetWorld()->SpawnActor<AActor>(WeaponInitDataAsset->BulletClass, Muzzle, SpawnParameters);
+	//GetWorld()->SpawnActor<AActor>(WeaponInitDataAsset->BulletClass, Muzzle, SpawnParameters);
 }
 
 void AWeapon::BeginActionB()
