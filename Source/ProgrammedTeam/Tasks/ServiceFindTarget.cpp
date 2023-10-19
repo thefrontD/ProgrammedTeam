@@ -48,14 +48,19 @@ void UServiceFindTarget::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* Node
 	);
 
 	if (bResult) {
+		AMob* Mob = nullptr;
 		OwnerComp.GetBlackboardComponent()->SetValueAsObject(TEXT("Target"), nullptr);
 		for (auto const& OverlapResult : OverlapResults)
 		{
-			AMob* Mob = Cast<AMob>(OverlapResult.GetActor());
+			Mob = Cast<AMob>(OverlapResult.GetActor());
 
 			if (Mob && !(Mob->GetTeamNum() == ControllingMob->GetTeamNum())) {
 				OwnerComp.GetBlackboardComponent()->SetValueAsObject(TEXT("Target"), Mob);
+				OwnerComp.GetBlackboardComponent()->SetValueAsBool(TEXT("bInBattle"), true);
 			}
+		}
+		if (Mob == nullptr) {
+			OwnerComp.GetBlackboardComponent()->SetValueAsBool(TEXT("bInBattle"), false);
 		}
 	}
 

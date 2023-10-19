@@ -26,4 +26,6 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 		class UBlackboardData* BBAsset;
+
+	class UBehaviorTreeComponent* BehaviorTreeComponent;
 };

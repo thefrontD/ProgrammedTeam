@@ -4,6 +4,7 @@
 #include "MobController.h"
 #include "Mob.h"
 #include "BehaviorTree/BehaviorTree.h"
+#include "BehaviorTree/BehaviorTreeComponent.h"
 #include "BehaviorTree/BlackboardData.h"
 #include "ProgrammedTeam.h"
 

@@ -38,6 +38,8 @@ public:
 
 	bool IsTargetNull() const;
 
+	bool IsInPosition() const;
+
 	void SetTarget(AMob* NewTarget);
 
 	void ApplyDamageTarget();

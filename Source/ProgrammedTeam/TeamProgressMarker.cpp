@@ -103,6 +103,18 @@ bool ATeamProgressMarker::CheckTeamInBattle()
 	return bResult;
 }
 
+bool ATeamProgressMarker::CheckTeamInPosition()
+{
+
+	bool bResult = false;
+
+	for (AMob* Mob : SpawnedMob) {
+		bResult |= !(Mob->IsInPosition());
+	}
+
+	return bResult;
+}
+
 void ATeamProgressMarker::SetMobDestination()
 {
 	FVector ActorLocation = GetActorLocation();

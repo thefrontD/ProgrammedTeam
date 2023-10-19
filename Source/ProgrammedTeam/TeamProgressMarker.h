@@ -28,6 +28,8 @@ public:
 
 	bool CheckTeamInBattle();
 
+	bool CheckTeamInPosition();
+
 	void SetMobDestination();
 
 	void GetCenterAndRange(FVector& CenterLocation, float& Range);

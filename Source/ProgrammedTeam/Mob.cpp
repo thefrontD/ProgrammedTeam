@@ -102,6 +102,12 @@ bool AMob::IsTargetNull() const
 	return AttackTarget == nullptr;
 }
 
+bool AMob::IsInPosition() const
+{
+	auto MobController = Cast<AMobController>(GetController());
+	return false;
+}
+
 void AMob::SetTarget(AMob* NewTarget)
 {
 	AttackTarget = NewTarget;
