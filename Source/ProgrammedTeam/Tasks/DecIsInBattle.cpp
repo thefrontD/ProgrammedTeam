@@ -2,6 +2,8 @@
 
 #include "DecIsInBattle.h"
 #include "../ProgrammedTeam.h"
+#include "../Mob.h"
+#include "AIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
 
 UDecIsInBattle::UDecIsInBattle() {
@@ -12,9 +14,14 @@ bool UDecIsInBattle::CalculateRawConditionValue(UBehaviorTreeComponent& OwnerCom
 {
     bool bResult = Super::CalculateRawConditionValue(OwnerComp, NodeMemory);
 
-    bool InBattle = OwnerComp.GetBlackboardComponent()->GetValueAsBool(TEXT("bInBattle"));
+    auto ControllingPawn = OwnerComp.GetAIOwner()->GetPawn();
+    if (ControllingPawn == nullptr) {
+        return false;
+    }
 
-    bool InPosition = OwnerComp.GetBlackboardComponent()->GetValueAsBool(TEXT("bInPosition"));
+    auto ControllingMob = Cast<AMob>(ControllingPawn);
 
-    return InBattle || (!InPosition);
+    bool InBattle = ControllingMob->IsInBattle();
+
+    return InBattle;
 }

@@ -97,21 +97,27 @@ bool ATeamProgressMarker::CheckTeamInBattle()
 	bool bResult = false;
 
 	for (AMob* Mob : SpawnedMob) {
-		bResult = bResult || !(Mob->IsTargetNull());
+		bResult |= !(Mob->IsTargetNull());
 	}
 
+	if (bResult)
+		Logger::Print("InBattle true");
 	return bResult;
 }
 
 bool ATeamProgressMarker::CheckTeamInPosition()
 {
 
-	bool bResult = false;
+	bool bResult = true;
 
 	for (AMob* Mob : SpawnedMob) {
-		bResult |= !(Mob->IsInPosition());
+		if (!(Mob->IsNearDestination()))
+			Logger::Print("[ATeamProgressMarker::CheckTeamInPosition]MobNotInPosition", 2);
+		bResult = (bResult && (Mob->IsNearDestination()));
 	}
 
+	if (bResult)
+		Logger::Print("InPosition false");
 	return bResult;
 }
 
@@ -119,6 +125,7 @@ void ATeamProgressMarker::SetMobDestination()
 {
 	FVector ActorLocation = GetActorLocation();
 	for (int i = 0; i < SpawnedMob.Num(); i++) {
+		Logger::Print(ActorLocation + Offsets[i], 1);
 		SpawnedMob[i]->SetDestination(ActorLocation + Offsets[i]);
 	}
 }

@@ -102,12 +102,6 @@ bool AMob::IsTargetNull() const
 	return AttackTarget == nullptr;
 }
 
-bool AMob::IsInPosition() const
-{
-	auto MobController = Cast<AMobController>(GetController());
-	return false;
-}
-
 void AMob::SetTarget(AMob* NewTarget)
 {
 	AttackTarget = NewTarget;
@@ -131,8 +125,6 @@ float AMob::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, ACon
 
 	CurrentHP -= FinalDamage;
 
-	Logger::Print(CurrentHP);
-
 	if (CurrentHP < 0) {
 		State = MobState::Dead;
 		Destroy();
@@ -154,6 +146,13 @@ UBlackboardData* AMob::GetBBAsset()
 void AMob::SetDestination(FVector NewDestination)
 {
 	Destination = NewDestination;
+	float diff = (NewDestination - GetActorLocation()).Size();
+	Logger::Print("[AMob::SetDestination]diff = " + FString::SanitizeFloat(diff), 3);
+	if (diff > AcceptableRadius)
+		bNearDestination = false;
+	else
+		bNearDestination = true;
+	return;
 }
 
 FVector AMob::GetDestination()

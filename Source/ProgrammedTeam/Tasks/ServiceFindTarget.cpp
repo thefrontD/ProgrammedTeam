@@ -8,6 +8,8 @@
 #include "DrawDebugHelpers.h"
 #include "BehaviorTree/BlackboardComponent.h"
 
+#include "../Logger.h"
+
 UServiceFindTarget::UServiceFindTarget() {
 	NodeName = TEXT("FindTarget");
 	Interval = 1.0f;
@@ -17,7 +19,7 @@ UServiceFindTarget::UServiceFindTarget() {
 void UServiceFindTarget::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
 {
 	Super::TickNode(OwnerComp, NodeMemory, DeltaSeconds);
-
+	Logger::Print("[UServiceFindTarget] called",5);
 
 	auto ControllingPawn = OwnerComp.GetAIOwner()->GetPawn();
 	if (ControllingPawn == nullptr) {
@@ -49,18 +51,22 @@ void UServiceFindTarget::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* Node
 
 	if (bResult) {
 		AMob* Mob = nullptr;
-		OwnerComp.GetBlackboardComponent()->SetValueAsObject(TEXT("Target"), nullptr);
+		//Logger::Print(OverlapResults.Num());
+		//OwnerComp.GetBlackboardComponent()->SetValueAsObject(TEXT("Target"), nullptr);
 		for (auto const& OverlapResult : OverlapResults)
 		{
 			Mob = Cast<AMob>(OverlapResult.GetActor());
-
-			if (Mob && !(Mob->GetTeamNum() == ControllingMob->GetTeamNum())) {
+			if (Mob != nullptr && Mob->GetTeamNum() != ControllingMob->GetTeamNum()) {
+				//Logger::Print( 1000+Mob->GetTeamNum(), 7);
+				//Logger::Print(1000+ ControllingMob->GetTeamNum(), 8);
 				OwnerComp.GetBlackboardComponent()->SetValueAsObject(TEXT("Target"), Mob);
-				OwnerComp.GetBlackboardComponent()->SetValueAsBool(TEXT("bInBattle"), true);
+				ControllingMob->SetInBattle(true);
+				//OwnerComp.GetBlackboardComponent()->SetValueAsBool(TEXT("bInBattle"), true);
 			}
+			else Mob = nullptr;
 		}
 		if (Mob == nullptr) {
-			OwnerComp.GetBlackboardComponent()->SetValueAsBool(TEXT("bInBattle"), false);
+			ControllingMob->SetInBattle(false);
 		}
 	}
 

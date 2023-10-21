@@ -38,7 +38,9 @@ public:
 
 	bool IsTargetNull() const;
 
-	bool IsInPosition() const;
+	bool IsNearDestination() const			{ return bNearDestination; }
+	bool IsInBattle() const					{ return bInBattle; }
+	void SetInBattle(bool NewInBattle)		{ bInBattle = NewInBattle; return; }
 
 	void SetTarget(AMob* NewTarget);
 
@@ -93,4 +95,13 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 	int TeamNum = 1; /* 0: player, 1: enemy */
+
+	UPROPERTY(VisibleAnywhere)
+		float AcceptableRadius = 100.0f;
+
+	UPROPERTY(VisibleAnywhere)
+		bool bNearDestination = false;
+
+	UPROPERTY(VisibleAnywhere)
+		bool bInBattle = false;
 };

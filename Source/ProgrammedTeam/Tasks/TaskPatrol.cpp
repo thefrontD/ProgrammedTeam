@@ -2,7 +2,6 @@
 
 
 #include "TaskPatrol.h"
-#include "../Logger.h"
 #include "../MarkerController.h"
 #include "../PatrolComponent.h"
 #include "NavigationSystem.h"
@@ -26,12 +25,6 @@ EBTNodeResult::Type UTaskPatrol::ExecuteTask(UBehaviorTreeComponent& OwnerComp, 
 	FVector Location;
 	if (PatrolComponent->GetDestination(Location)) {
 
-		bool bNearBy = FVector::DistXY(FVector::ZeroVector, ControllingPawn->GetActorLocation() - Location) < MarginDistance;
-		bool bInBattle = OwnerComp.GetBlackboardComponent()->GetValueAsBool(TEXT("bInBattle"));
-		if (bNearBy && !bInBattle) {
-			PatrolComponent->SetIndexToNext();
-		}
-
 		UNavigationSystemV1* NavSystem = UNavigationSystemV1::GetNavigationSystem(GetWorld());
 		if (NavSystem == nullptr)
 			return EBTNodeResult::Failed;
@@ -40,13 +33,7 @@ EBTNodeResult::Type UTaskPatrol::ExecuteTask(UBehaviorTreeComponent& OwnerComp, 
 
 		return EBTNodeResult::Succeeded;
 	}
-	else {
-		return EBTNodeResult::Failed;
-	}
+
+	return EBTNodeResult::Failed;
 		
-
-
-
-
-	return EBTNodeResult::Type();
 }

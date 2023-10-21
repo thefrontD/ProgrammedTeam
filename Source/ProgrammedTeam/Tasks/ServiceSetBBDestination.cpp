@@ -5,6 +5,7 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "AIController.h"
 #include "../Mob.h"
+#include "../Logger.h"
 
 UServiceSetBBDestination::UServiceSetBBDestination() {
 	NodeName = TEXT("SetBBDestination");
@@ -16,6 +17,7 @@ UServiceSetBBDestination::UServiceSetBBDestination() {
 void UServiceSetBBDestination::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
 {
 	Super::TickNode(OwnerComp, NodeMemory, DeltaSeconds);
+	//Logger::Print("[UServiceSetBBDestination] called",4);
 
 	auto ControllingPawn = OwnerComp.GetAIOwner()->GetPawn();
 	if (ControllingPawn == nullptr) {
@@ -23,7 +25,7 @@ void UServiceSetBBDestination::TickNode(UBehaviorTreeComponent& OwnerComp, uint8
 	}
 	AMob* Mob = Cast<AMob>(ControllingPawn);
 
-
+	Logger::Print("[UServiceSetBBDestination]" + Mob->GetDestination().ToString(), 4);
 	OwnerComp.GetBlackboardComponent()->SetValueAsVector(TEXT("Destination"), Mob->GetDestination());
 
 }
