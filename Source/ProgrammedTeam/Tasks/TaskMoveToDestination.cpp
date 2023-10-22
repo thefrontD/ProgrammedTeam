@@ -30,3 +30,8 @@ EBTNodeResult::Type UTaskMoveToDestination::ExecuteTask(UBehaviorTreeComponent& 
 
 	return EBTNodeResult::Succeeded;
 }
+
+void UTaskMoveToDestination::TickTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
+{
+
+}

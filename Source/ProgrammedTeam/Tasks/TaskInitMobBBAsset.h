@@ -4,20 +4,18 @@
 
 #include "CoreMinimal.h"
 #include "BehaviorTree/BTTaskNode.h"
-#include "TaskMoveToDestination.generated.h"
+#include "TaskInitMobBBAsset.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class PROGRAMMEDTEAM_API UTaskMoveToDestination : public UBTTaskNode
+class PROGRAMMEDTEAM_API UTaskInitMobBBAsset : public UBTTaskNode
 {
 	GENERATED_BODY()
 public:
-	UTaskMoveToDestination();
-	
+	UTaskInitMobBBAsset();
+
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 
-	virtual void TickTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds) override;
-	
 };
