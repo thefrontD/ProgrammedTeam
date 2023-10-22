@@ -22,8 +22,6 @@ EBTNodeResult::Type UTaskMoveToDestination::ExecuteTask(UBehaviorTreeComponent& 
 	if(ControllingMob == nullptr)
 		return EBTNodeResult::Failed;
 
-	Logger::Print( "[UTaskMoveToDestination]" + ControllingMob->GetDestination().ToString(), 6);
-
 	UAIBlueprintHelperLibrary::SimpleMoveToLocation(
 		ControllingMob->Controller,
 		ControllingMob->GetDestination());

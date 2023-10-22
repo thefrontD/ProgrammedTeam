@@ -34,6 +34,9 @@ public:
 
 	void GetCenterAndRange(FVector& CenterLocation, float& Range);
 
+	UFUNCTION()
+	void RemoveMobFromArray(class AMob* ptr);
+
 private:
 	UPROPERTY(VisibleAnywhere)
 		class UTPMarkerInitDataAsset* InitDataAsset;

@@ -62,10 +62,10 @@ void ATeamProgressMarker::BeginPlay()
 	UPTSaveGame* PTSaveGame = Cast<UPTSaveGame>(UGameplayStatics::LoadGameFromSlot(SaveSlotName, 0));
 
 
-	Offsets.Add(FVector(200, 200, 0));
-	Offsets.Add(FVector(-200, 200, 0));
-	Offsets.Add(FVector(200, -200, 0));
-	Offsets.Add(FVector(-200, -200, 0));
+	Offsets.Add(FVector(0, 100, 0));
+	Offsets.Add(FVector(0, 200, 0));
+	Offsets.Add(FVector(0, -100, 0));
+	Offsets.Add(FVector(0, -200, 0));
 
 
 	for (int i = 0; i < PTSaveGame->SavedMobTypes.Num(); i++) {
@@ -74,10 +74,10 @@ void ATeamProgressMarker::BeginPlay()
 			transform.SetLocation(GetActorLocation() + Offsets[i]);
 			auto Mob = GetWorld()->SpawnActor<AMob>(SpawnClass, transform);
 			Mob->SetTeamNum(0);
+			Mob->SingleDelegateOneParam.BindUFunction(this, "RemoveMobFromArray");
 			SpawnedMob.Add(Mob);
 		}
 	}
-
 }
 
 void ATeamProgressMarker::Tick(float DeltaTime)
@@ -100,8 +100,8 @@ bool ATeamProgressMarker::CheckTeamInBattle()
 		bResult |= !(Mob->IsTargetNull());
 	}
 
-	if (bResult)
-		Logger::Print("InBattle true");
+	//if (bResult)
+	//	Logger::Print("InBattle true");
 	return bResult;
 }
 
@@ -112,12 +112,9 @@ bool ATeamProgressMarker::CheckTeamInPosition()
 
 	for (AMob* Mob : SpawnedMob) {
 		if (!(Mob->IsNearDestination()))
-			Logger::Print("[ATeamProgressMarker::CheckTeamInPosition]MobNotInPosition", 2);
 		bResult = (bResult && (Mob->IsNearDestination()));
 	}
 
-	if (bResult)
-		Logger::Print("InPosition false");
 	return bResult;
 }
 
@@ -147,6 +144,13 @@ void ATeamProgressMarker::GetCenterAndRange(FVector& CenterLocation, float& Rang
 	}
 	Range = newRange + 50.0f;
 
+	return;
+}
+
+void ATeamProgressMarker::RemoveMobFromArray(AMob* ptr)
+{
+	//Logger::Print("Team Mob Removed");
+	//Logger::Print(SpawnedMob.Remove(ptr));
 	return;
 }
 

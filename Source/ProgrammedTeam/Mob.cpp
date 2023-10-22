@@ -36,11 +36,15 @@ AMob::AMob()
 		CharacterMesh->SetAnimInstanceClass(MobInitDataAsset->MobABP);
 
 		CurrentHP = MobInitDataAsset->MaxHP;
+		Range = MobInitDataAsset->Range;
+		Damage = MobInitDataAsset->Damage;
+		AttackDelay = MobInitDataAsset->AttackDelay;
 	}
 	//CharacterMovement->Set
 
 	State = MobState::Idle;
 	bAiming = false;
+	bInBattle = false;
 
 
 	AIControllerClass = AMobController::StaticClass();
@@ -60,6 +64,15 @@ void AMob::OnConstruction(FTransform const& Transform) {
 	Gun->GetChildActor()->SetOwner(this);
 	Gun->GetChildActor()->SetInstigator(this);
 
+}
+
+void AMob::DestroyProcess()
+{
+	if (SingleDelegateOneParam.IsBound())
+		SingleDelegateOneParam.Execute(this);
+	//SetLifeSpan(1.0f);
+	Destroy();
+	return;
 }
 
 
@@ -127,7 +140,7 @@ float AMob::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, ACon
 
 	if (CurrentHP < 0) {
 		State = MobState::Dead;
-		Destroy();
+		DestroyProcess();
 	}
 
 	return 0.0f;
@@ -147,7 +160,6 @@ void AMob::SetDestination(FVector NewDestination)
 {
 	Destination = NewDestination;
 	float diff = (NewDestination - GetActorLocation()).Size();
-	Logger::Print("[AMob::SetDestination]diff = " + FString::SanitizeFloat(diff), 3);
 	if (diff > AcceptableRadius)
 		bNearDestination = false;
 	else

@@ -7,6 +7,8 @@
 #include "Animation/AnimMontage.h"
 #include "Mob.generated.h"
 
+DECLARE_DELEGATE_OneParam(FSingleDelegateOneParam, AMob*);
+
 UENUM()
 enum class MobState : uint8 {
 	Idle,
@@ -24,30 +26,34 @@ public:
 
 	void OnConstruction(FTransform const& Transform);
 
+	void DestroyProcess();
+
 protected:
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-	
+
 	void SetAiming(bool NewAiming);
 
 	bool GetAiming() const;
 
 	bool IsTargetNull() const;
-
-	bool IsNearDestination() const			{ return bNearDestination; }
-	bool IsInBattle() const					{ return bInBattle; }
-	void SetInBattle(bool NewInBattle)		{ bInBattle = NewInBattle; return; }
+	//float GetDamage() { return Damage; }
+	//float GetRange() { return Range; }
+	float GetAttackDelay() { return AttackDelay; }
+	bool IsNearDestination() const { return bNearDestination; }
+	bool IsInBattle() const { return bInBattle; }
+	void SetInBattle(bool NewInBattle) { bInBattle = NewInBattle; return; }
 
 	void SetTarget(AMob* NewTarget);
 
 	void ApplyDamageTarget();
 
 	virtual float TakeDamage(
-		float DamageAmount, 
+		float DamageAmount,
 		struct FDamageEvent const& DamageEvent,
 		class AController* EventInstigator,
 		AActor* DamageCauser) override;
@@ -71,37 +77,51 @@ public:
 	//¿Â∫Ò ¿Â¬¯
 	void BeginActionC();
 
+public:
+	FSingleDelegateOneParam SingleDelegateOneParam;
+
 protected:
 	UPROPERTY(VisibleAnywhere)
-	MobState State;
+		MobState State;
 
 	UPROPERTY(VisibleAnywhere)
-	bool bAiming;
+		bool bAiming;
 
 	UPROPERTY(VisibleAnywhere)
-	UChildActorComponent* Gun;
+		UChildActorComponent* Gun;
 
 	UPROPERTY(VisibleAnywhere)
-	class UMobInitializerDataAsset* MobInitDataAsset;
+		class UMobInitializerDataAsset* MobInitDataAsset;
 
 	UPROPERTY(VisibleAnywhere)
-	AMob* AttackTarget;
+		AMob* AttackTarget;
 
 	UPROPERTY(VisibleAnywhere)
-	float CurrentHP;
+		float CurrentHP;
 
 	UPROPERTY(VisibleAnywhere)
-	FVector Destination;
+		float Range;
 
 	UPROPERTY(VisibleAnywhere)
-	int TeamNum = 1; /* 0: player, 1: enemy */
+		float Damage;
 
 	UPROPERTY(VisibleAnywhere)
-		float AcceptableRadius = 100.0f;
+		float AttackDelay;
+
+	UPROPERTY(VisibleAnywhere)
+		FVector Destination;
+
+	UPROPERTY(VisibleAnywhere)
+		int TeamNum = 1; /* 0: player, 1: enemy */
+
+	UPROPERTY(VisibleAnywhere)
+		float AcceptableRadius = 500.0f;
 
 	UPROPERTY(VisibleAnywhere)
 		bool bNearDestination = false;
 
 	UPROPERTY(VisibleAnywhere)
 		bool bInBattle = false;
+
+
 };

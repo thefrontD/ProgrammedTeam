@@ -21,6 +21,12 @@ public:
 		float Damage;
 
 	UPROPERTY(EditDefaultsOnly)
+		float Range;
+
+	UPROPERTY(EditDefaultsOnly)
+		float AttackDelay;
+
+	UPROPERTY(EditDefaultsOnly)
 		TSubclassOf<class AWeapon> GunClass;
 
 	UPROPERTY(EditDefaultsOnly)

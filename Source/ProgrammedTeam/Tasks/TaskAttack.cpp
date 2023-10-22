@@ -12,13 +12,11 @@ UTaskAttack::UTaskAttack() {
 
 EBTNodeResult::Type UTaskAttack::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
-	auto ControllingPawn = Cast<AMob>(OwnerComp.GetAIOwner()->GetPawn());
+	auto ControllingMob = Cast<AMob>(OwnerComp.GetAIOwner()->GetPawn());
 	
 	//OwnerComp.GetBlackboardComponent()->SetValueAsObject(TEXT("Target"), Mob);
-	ControllingPawn->SetTarget(
-		Cast<AMob>(OwnerComp.GetBlackboardComponent()->GetValueAsObject(TEXT("Target")))
-	);
-	ControllingPawn->BeginActionA();
+	
+	ControllingMob->BeginActionA();
 
 	return EBTNodeResult::Type();
 }

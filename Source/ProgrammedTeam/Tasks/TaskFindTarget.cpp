@@ -46,7 +46,6 @@ EBTNodeResult::Type UTaskFindTarget::ExecuteTask(UBehaviorTreeComponent& OwnerCo
 
 	//거의 항상 Result 는 true이다. 바닥등 다른 오브젝트도 감지하기 때문에
 	if (bResult) {
-		Logger::Print("FindTarget Called Anyway", 7);
 		AMob* Mob;
 		for (auto OverlapResult : OverlapResults)
 		{
@@ -58,11 +57,12 @@ EBTNodeResult::Type UTaskFindTarget::ExecuteTask(UBehaviorTreeComponent& OwnerCo
 				continue;
 			}
 
-			Logger::Print(1000 + Mob->GetTeamNum(), 7);
-			Logger::Print(1000 + ControllingMob->GetTeamNum(), 8);
 			OwnerComp.GetBlackboardComponent()->SetValueAsObject(TEXT("Target"), Mob);
 			OwnerComp.GetBlackboardComponent()->SetValueAsBool(TEXT("bInBattle"), true);
 			ControllingMob->SetInBattle(true);
+			ControllingMob->SetTarget(
+				Cast<AMob>(OwnerComp.GetBlackboardComponent()->GetValueAsObject(TEXT("Target")))
+			);
 			OwnerComp.GetAIOwner()->StopMovement();
 			//OwnerComp.GetBlackboardComponent()->SetValueAsBool(TEXT("bInBattle"), true);
 
@@ -72,9 +72,10 @@ EBTNodeResult::Type UTaskFindTarget::ExecuteTask(UBehaviorTreeComponent& OwnerCo
 		//루프를 돌고 여기까지 왔으면 탐지범위 내에 적이 없음
 		OwnerComp.GetBlackboardComponent()->SetValueAsBool(TEXT("bInBattle"), false);
 		ControllingMob->SetInBattle(false);
+		ControllingMob->SetTarget(nullptr);
 	}
 
-	DrawDebugSphere(World, Center, DetectRadius, 16, FColor::Green, false, 0.5f);
+	//DrawDebugSphere(World, Center, DetectRadius, 16, FColor::Green, false, 0.5f);
 
 
 	return EBTNodeResult::Failed;
