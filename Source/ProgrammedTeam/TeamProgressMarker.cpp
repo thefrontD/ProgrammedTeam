@@ -36,27 +36,26 @@ ATeamProgressMarker::ATeamProgressMarker()
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 
 	GetCharacterMovement()->MaxWalkSpeed = 2000;
-		
 
-	//Class'/Script/ProgrammedTeam.Mob'
+
+	FindInitData();
 }
 
 void ATeamProgressMarker::BeginPlay()
 {
 	Super::BeginPlay();
 	
-
+	//For Test
 	UPTSaveGame* PTSaveGameNew = NewObject<UPTSaveGame>();
 	PTSaveGameNew->SavedMobTypes.Add(MobType::Pistol);
 	PTSaveGameNew->SavedMobTypes.Add(MobType::SniperRifle);
 	PTSaveGameNew->SavedMobTypes.Add(MobType::AssultRifle);
 	PTSaveGameNew->SavedMobTypes.Add(MobType::AssultRifle);
 
-
 	if (!UGameplayStatics::SaveGameToSlot(PTSaveGameNew, "Default", 0)) {
 		Logger::Log("save failed");;
 	}
-
+	//For Test End
 
 	FString SaveSlotName = "Default";
 	UPTSaveGame* PTSaveGame = Cast<UPTSaveGame>(UGameplayStatics::LoadGameFromSlot(SaveSlotName, 0));
@@ -76,6 +75,7 @@ void ATeamProgressMarker::BeginPlay()
 			Mob->SetTeamNum(0);
 			Mob->SingleDelegateOneParam.BindUFunction(this, "RemoveMobFromArray");
 			SpawnedMob.Add(Mob);
+			Mob->Init(*(InitDataArray.Find((int)(PTSaveGame->SavedMobTypes[i]))));
 		}
 	}
 }
@@ -121,9 +121,10 @@ bool ATeamProgressMarker::CheckTeamInPosition()
 void ATeamProgressMarker::SetMobDestination()
 {
 	FVector ActorLocation = GetActorLocation();
+	FRotator ActorRotator = GetActorRotation();
 	for (int i = 0; i < SpawnedMob.Num(); i++) {
 		Logger::Print(ActorLocation + Offsets[i], 1);
-		SpawnedMob[i]->SetDestination(ActorLocation + Offsets[i]);
+		SpawnedMob[i]->SetDestination(ActorLocation + ActorRotator.RotateVector(Offsets[i]));
 	}
 }
 
@@ -151,6 +152,27 @@ void ATeamProgressMarker::RemoveMobFromArray(AMob* ptr)
 {
 	//Logger::Print("Team Mob Removed");
 	//Logger::Print(SpawnedMob.Remove(ptr));
+	return;
+}
+
+void ATeamProgressMarker::FindInitData()
+{
+	static ConstructorHelpers::FObjectFinder<UMobInitializerDataAsset> FoundPistolDataAsset(
+		TEXT("/Game/DataAssets/InitData/PistolMobInitDataAsset.PistolMobInitDataAsset")
+	);
+	if (FoundPistolDataAsset.Succeeded())
+		InitDataArray.Add((int)MobType::Pistol, FoundPistolDataAsset.Object);
+	static ConstructorHelpers::FObjectFinder<UMobInitializerDataAsset> FoundRifleDataAsset(
+		TEXT("/Game/DataAssets/InitData/RifleMobInitDataAsset.RifleMobInitDataAsset")
+	);
+	if (FoundRifleDataAsset.Succeeded())
+		InitDataArray.Add((int)MobType::AssultRifle, FoundRifleDataAsset.Object);
+	static ConstructorHelpers::FObjectFinder<UMobInitializerDataAsset> FoundSniperDataAsset(
+		TEXT("/Game/DataAssets/InitData/SniperMobInitDataAsset.SniperMobInitDataAsset")
+	);
+	if (FoundSniperDataAsset.Succeeded())
+		InitDataArray.Add((int)MobType::SniperRifle, FoundSniperDataAsset.Object);
+
 	return;
 }
 

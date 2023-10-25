@@ -20,57 +20,31 @@ AMob::AMob()
 	Gun->SetupAttachment(GetRootComponent());
 
 
-	static ConstructorHelpers::FObjectFinder<UMobInitializerDataAsset> FoundInitDataAsset(
+	/*static ConstructorHelpers::FObjectFinder<UMobInitializerDataAsset> FoundInitDataAsset(
 		TEXT("/Game/DataAssets/InitData/RifleMobInitDataAsset.RifleMobInitDataAsset")
 	);
-
-
 	if (FoundInitDataAsset.Succeeded()) {
-		MobInitDataAsset = FoundInitDataAsset.Object;
+		Init(FoundInitDataAsset.Object);
+	}*/
 
-		CharacterMesh->SetSkeletalMesh(MobInitDataAsset->MobMesh);
-		CharacterMesh->AddRelativeLocation(FVector(0, 0, -80));
-		CharacterMesh->SetRelativeRotation(FRotator(0, -90, 0));
-		CharacterMesh->SetAnimationMode(EAnimationMode::AnimationBlueprint);
-
-		CharacterMesh->SetAnimInstanceClass(MobInitDataAsset->MobABP);
-
-		CurrentHP = MobInitDataAsset->MaxHP;
-		Range = MobInitDataAsset->Range;
-		Damage = MobInitDataAsset->Damage;
-		AttackDelay = MobInitDataAsset->AttackDelay;
-	}
-	//CharacterMovement->Set
 
 	State = MobState::Idle;
 	bAiming = false;
 	bInBattle = false;
 
 
-	AIControllerClass = AMobController::StaticClass();
-	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 
 	//Cast<UMobAnimInstance>(CharacterMesh->GetAnimInstance())->SetAiming(false);
 }
 
 void AMob::OnConstruction(FTransform const& Transform) {
 	Super::OnConstruction(Transform);
-
-
-	FAttachmentTransformRules const Rules(EAttachmentRule::SnapToTarget, true);
-	Gun->AttachToComponent(GetMesh(), Rules, MobInitDataAsset->GunSocket);
-	Gun->SetChildActorClass(MobInitDataAsset->GunClass);
-	Gun->CreateChildActor();
-	Gun->GetChildActor()->SetOwner(this);
-	Gun->GetChildActor()->SetInstigator(this);
-
 }
 
 void AMob::DestroyProcess()
 {
 	if (SingleDelegateOneParam.IsBound())
 		SingleDelegateOneParam.Execute(this);
-	//SetLifeSpan(1.0f);
 	Destroy();
 	return;
 }
@@ -80,11 +54,51 @@ void AMob::DestroyProcess()
 void AMob::BeginPlay()
 {
 	Super::BeginPlay();
-
+	Logger::Print("[Mob] BeginPlay Called");
 
 
 	//GetController
 	//MobInitDataAsset->BTAsset
+}
+
+void AMob::Init(UMobInitializerDataAsset* InitDataAsset)
+{
+	if (InitDataAsset == nullptr)
+		Logger::Print("[Mob.h] Init Error");
+
+	MobInitDataAsset = InitDataAsset;
+
+
+	auto CharacterMesh = GetMesh();
+
+	CharacterMesh->SetSkeletalMesh(MobInitDataAsset->MobMesh);
+	CharacterMesh->AddRelativeLocation(FVector(0, 0, -80));
+	CharacterMesh->SetRelativeRotation(FRotator(0, -90, 0));
+	CharacterMesh->SetAnimationMode(EAnimationMode::AnimationBlueprint);
+
+	CharacterMesh->SetAnimInstanceClass(MobInitDataAsset->MobABP);
+
+	UMaterialInstanceDynamic* Material = UMaterialInstanceDynamic::Create(CharacterMesh->GetMaterial(0), this);
+	Material->SetVectorParameterValue("BodyColor", MobInitDataAsset->SkinColor);
+	CharacterMesh->SetMaterial(0, Material);
+
+	CurrentHP = MobInitDataAsset->MaxHP;
+	Range = MobInitDataAsset->Range;
+	Damage = MobInitDataAsset->Damage;
+	AttackDelay = MobInitDataAsset->AttackDelay;
+
+
+	AIControllerClass = AMobController::StaticClass();
+	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
+	SpawnDefaultController();
+
+
+	FAttachmentTransformRules const Rules(EAttachmentRule::SnapToTarget, true);
+	Gun->AttachToComponent(GetMesh(), Rules, MobInitDataAsset->GunSocket);
+	Gun->SetChildActorClass(MobInitDataAsset->GunClass);
+	Gun->CreateChildActor();
+	Gun->GetChildActor()->SetOwner(this);
+	Gun->GetChildActor()->SetInstigator(this);
 }
 
 void AMob::Tick(float DeltaTime)

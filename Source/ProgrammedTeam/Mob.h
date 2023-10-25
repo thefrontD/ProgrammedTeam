@@ -28,6 +28,8 @@ public:
 
 	void DestroyProcess();
 
+	void Init(class UMobInitializerDataAsset* InitDataAsset);
+
 protected:
 	virtual void BeginPlay() override;
 

@@ -8,7 +8,8 @@
 #include "Pistol.generated.h"
 
 /**
- * 
+ * deprecated
+ * use aweapon and initializer dataasset instead
  */
 UCLASS()
 class PROGRAMMEDTEAM_API APistol : 

@@ -38,6 +38,10 @@ public:
 	void RemoveMobFromArray(class AMob* ptr);
 
 private:
+	//Use in constructor only
+	void FindInitData();
+
+private:
 	UPROPERTY(VisibleAnywhere)
 		class UTPMarkerInitDataAsset* InitDataAsset;
 
@@ -55,4 +59,7 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 		TArray<class AMob*> SpawnedMob;
+
+	UPROPERTY(VisibleAnywhere)
+		TMap<int, class UMobInitializerDataAsset*> InitDataArray;
 };

@@ -50,4 +50,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly)
 		class UBlackboardData* BBAsset;
+
+	UPROPERTY(EditDefaultsOnly)
+		FColor SkinColor;
 };
