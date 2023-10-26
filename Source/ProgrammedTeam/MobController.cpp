@@ -43,11 +43,11 @@ void AMobController::OnUnPossess()
 	}
 }
 
-void AMobController::InitController(UBehaviorTree* NewBTAsset, UBlackboardData* NewBBAsset)
-{
-	BTAsset = NewBTAsset;
-	BBAsset = NewBBAsset;
-}
+//void AMobController::InitController(UBehaviorTree* NewBTAsset, UBlackboardData* NewBBAsset)
+//{
+//	BTAsset = NewBTAsset;
+//	BBAsset = NewBBAsset;
+//}
 
 void AMobController::OnRepeatTimer()
 {

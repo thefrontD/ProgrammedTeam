@@ -17,7 +17,7 @@ public:
 	AMobController();
 	virtual void OnPossess(APawn* InPawn) override;
 	virtual void OnUnPossess() override;
-	void InitController(class UBehaviorTree* BTAsset, class UBlackboardData* BBAsset);
+	//void InitController(class UBehaviorTree* BTAsset, class UBlackboardData* BBAsset);
 private:
 	void OnRepeatTimer();
 protected:

@@ -20,14 +20,6 @@ AMob::AMob()
 	Gun->SetupAttachment(GetRootComponent());
 
 
-	/*static ConstructorHelpers::FObjectFinder<UMobInitializerDataAsset> FoundInitDataAsset(
-		TEXT("/Game/DataAssets/InitData/RifleMobInitDataAsset.RifleMobInitDataAsset")
-	);
-	if (FoundInitDataAsset.Succeeded()) {
-		Init(FoundInitDataAsset.Object);
-	}*/
-
-
 	State = MobState::Idle;
 	bAiming = false;
 	bInBattle = false;
@@ -54,20 +46,16 @@ void AMob::DestroyProcess()
 void AMob::BeginPlay()
 {
 	Super::BeginPlay();
-	Logger::Print("[Mob] BeginPlay Called");
 
 
 	//GetController
 	//MobInitDataAsset->BTAsset
 }
 
-void AMob::Init(UMobInitializerDataAsset* InitDataAsset)
+void AMob::Init_internal()
 {
-	if (InitDataAsset == nullptr)
+	if (MobInitDataAsset == nullptr)
 		Logger::Print("[Mob.h] Init Error");
-
-	MobInitDataAsset = InitDataAsset;
-
 
 	auto CharacterMesh = GetMesh();
 
@@ -90,6 +78,10 @@ void AMob::Init(UMobInitializerDataAsset* InitDataAsset)
 
 	AIControllerClass = AMobController::StaticClass();
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
+	Logger::Print(TEXT("[init]") + AIControllerClass->GetFName().ToString());
+	if (Controller != nullptr) {
+		Controller->Destroy();
+	}
 	SpawnDefaultController();
 
 
@@ -99,6 +91,14 @@ void AMob::Init(UMobInitializerDataAsset* InitDataAsset)
 	Gun->CreateChildActor();
 	Gun->GetChildActor()->SetOwner(this);
 	Gun->GetChildActor()->SetInstigator(this);
+}
+
+void AMob::Init(UMobInitializerDataAsset* InitDataAsset)
+{
+	if (InitDataAsset == nullptr)
+		Logger::Print("[Mob.h] input DataAsset null");
+	MobInitDataAsset = InitDataAsset;
+	Init_internal();
 }
 
 void AMob::Tick(float DeltaTime)

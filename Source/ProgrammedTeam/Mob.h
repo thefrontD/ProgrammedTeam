@@ -28,7 +28,11 @@ public:
 
 	void DestroyProcess();
 
-	void Init(class UMobInitializerDataAsset* InitDataAsset);
+	UFUNCTION(BlueprintCallable)
+		void Init_internal();
+
+	UFUNCTION(BlueprintCallable)
+		void Init(class UMobInitializerDataAsset* InitDataAsset);
 
 protected:
 	virtual void BeginPlay() override;
@@ -92,8 +96,8 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 		UChildActorComponent* Gun;
 
-	UPROPERTY(VisibleAnywhere)
-		class UMobInitializerDataAsset* MobInitDataAsset;
+	UPROPERTY(EditInstanceOnly)
+		class UMobInitializerDataAsset* MobInitDataAsset = nullptr;
 
 	UPROPERTY(VisibleAnywhere)
 		AMob* AttackTarget;
@@ -110,14 +114,14 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 		float AttackDelay;
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(EditInstanceOnly)
 		FVector Destination;
 
 	UPROPERTY(VisibleAnywhere)
 		int TeamNum = 1; /* 0: player, 1: enemy */
 
 	UPROPERTY(VisibleAnywhere)
-		float AcceptableRadius = 500.0f;
+		float AcceptableRadius = 1000.0f;
 
 	UPROPERTY(VisibleAnywhere)
 		bool bNearDestination = false;
