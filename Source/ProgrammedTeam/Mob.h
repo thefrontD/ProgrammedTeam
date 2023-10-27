@@ -48,13 +48,15 @@ public:
 
 	bool IsTargetNull() const;
 	//float GetDamage() { return Damage; }
-	//float GetRange() { return Range; }
+	float GetRange() { return Range; }
 	float GetAttackDelay() { return AttackDelay; }
 	bool IsNearDestination() const { return bNearDestination; }
 	bool IsInBattle() const { return bInBattle; }
 	void SetInBattle(bool NewInBattle) { bInBattle = NewInBattle; return; }
 
 	void SetTarget(AMob* NewTarget);
+	AMob* GetTargetFromPM();
+	void SetPM(class ATeamProgressMarker* newTeamProgressMarker) { TeamProgressMarker = newTeamProgressMarker; return; }
 
 	void ApplyDamageTarget();
 
@@ -65,13 +67,11 @@ public:
 		AActor* DamageCauser) override;
 
 	class UBehaviorTree* GetBTAsset();
-
 	class UBlackboardData* GetBBAsset();
 
 	void SetDestination(FVector NewDestination);
 
 	void SetTeamNum(const int NewTeamNum) { TeamNum = NewTeamNum; }
-
 	int GetTeamNum() { return TeamNum; }
 
 	FVector GetDestination();
@@ -129,5 +129,7 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 		bool bInBattle = false;
 
+	UPROPERTY(VisibleAnywhere)
+		class ATeamProgressMarker* TeamProgressMarker = nullptr;
 
 };

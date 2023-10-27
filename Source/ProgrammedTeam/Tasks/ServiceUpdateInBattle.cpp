@@ -9,7 +9,7 @@
 
 
 UServiceUpdateInBattle::UServiceUpdateInBattle() {
-	NodeName = TEXT("UpdateReady");
+	NodeName = TEXT("UpdatebInPosition");
 }
 
 void UServiceUpdateInBattle::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory, float DeltaSeconds)
@@ -23,9 +23,9 @@ void UServiceUpdateInBattle::TickNode(UBehaviorTreeComponent& OwnerComp, uint8* 
 
 	auto TeamProgressMarker = Cast<ATeamProgressMarker>(ControllingPawn);
 
-	OwnerComp.GetBlackboardComponent()->SetValueAsBool(
+	/*OwnerComp.GetBlackboardComponent()->SetValueAsBool(
 		"bInBattle",
-		TeamProgressMarker->CheckTeamInBattle());
+		TeamProgressMarker->CheckTeamInBattle());*/
 	OwnerComp.GetBlackboardComponent()->SetValueAsBool(
 		"bInPosition",
 		TeamProgressMarker->CheckTeamInPosition());

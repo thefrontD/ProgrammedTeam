@@ -15,7 +15,8 @@ EBTNodeResult::Type UTaskAttack::ExecuteTask(UBehaviorTreeComponent& OwnerComp, 
 	auto ControllingMob = Cast<AMob>(OwnerComp.GetAIOwner()->GetPawn());
 	
 	//OwnerComp.GetBlackboardComponent()->SetValueAsObject(TEXT("Target"), Mob);
-	
+	OwnerComp.GetAIOwner()->StopMovement();
+
 	ControllingMob->BeginActionA();
 
 	return EBTNodeResult::Type();

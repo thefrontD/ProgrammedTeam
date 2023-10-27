@@ -36,10 +36,16 @@ public:
 
 	UFUNCTION()
 	void RemoveMobFromArray(class AMob* ptr);
+	
+	AMob* GetClosestEnemy(FVector vector);
 
 private:
 	//Use in constructor only
 	void FindInitData();
+
+public:
+	UPROPERTY(VisibleAnywhere)
+		TArray<class AMob*> Enemies;
 
 private:
 	UPROPERTY(VisibleAnywhere)
@@ -62,4 +68,5 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 		TMap<int, class UMobInitializerDataAsset*> InitDataArray;
+
 };

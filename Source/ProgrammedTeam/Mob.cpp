@@ -8,6 +8,7 @@
 #include "MobAnimInstance.h"
 //#include "GameFramework/CharacterMovementComponent.h"
 #include "MobController.h"
+#include "TeamProgressMarker.h"
 
 AMob::AMob()
 {
@@ -132,6 +133,13 @@ bool AMob::IsTargetNull() const
 void AMob::SetTarget(AMob* NewTarget)
 {
 	AttackTarget = NewTarget;
+}
+
+AMob* AMob::GetTargetFromPM()
+{
+	if (TeamProgressMarker == nullptr)
+		return nullptr;
+	return TeamProgressMarker->GetClosestEnemy(this->GetActorLocation());
 }
 
 void AMob::ApplyDamageTarget()

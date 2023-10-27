@@ -76,6 +76,7 @@ void ATeamProgressMarker::BeginPlay()
 			Mob->SingleDelegateOneParam.BindUFunction(this, "RemoveMobFromArray");
 			SpawnedMob.Add(Mob);
 			Mob->Init(*(InitDataArray.Find((int)(PTSaveGame->SavedMobTypes[i]))));
+			Mob->SetPM(this);
 		}
 	}
 }
@@ -150,9 +151,28 @@ void ATeamProgressMarker::GetCenterAndRange(FVector& CenterLocation, float& Rang
 
 void ATeamProgressMarker::RemoveMobFromArray(AMob* ptr)
 {
-	//Logger::Print("Team Mob Removed");
-	//Logger::Print(SpawnedMob.Remove(ptr));
+	SpawnedMob.Remove(ptr);
 	return;
+}
+
+AMob* ATeamProgressMarker::GetClosestEnemy(FVector vector)
+{
+	AMob* ret = nullptr;
+
+	float dist = -1;
+	float newdist;
+	for (AMob* enemy : Enemies) {
+		if (enemy == nullptr || !(enemy->IsValidLowLevelFast())) {
+			Logger::Print("enemy instance invalid", 4);
+			continue;
+		}
+		newdist = FVector::Dist2D(vector, enemy->GetActorLocation());
+		if (dist < 0 || dist < newdist) {
+			dist = newdist;
+			ret = enemy;
+		}
+	}
+	return ret;
 }
 
 void ATeamProgressMarker::FindInitData()
