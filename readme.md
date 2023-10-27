@@ -24,7 +24,8 @@ c++
 - 캐릭터 선택 창 및 연동하여 스테이지 시작
 
 ## 영상
-전투레벨: https://youtu.be/JHmpw-kGOXI   
+전투레벨: https://youtu.be/wyKyfwPGfGM
 캐릭터 선택 레벨: https://youtu.be/OACujzWyfTA   
 
-
+17일차: https://youtu.be/OACujzWyfTA
+21일차: https://youtu.be/wyKyfwPGfGM
